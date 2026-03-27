@@ -14,7 +14,7 @@ const PLACEHOLDER_IMG =
   "/api/product-images/Gemini_Generated_Image_1ik7ew1ik7ew1ik7.png";
 
 const SLIDESHOW_BG =
-  "/api/product-images/Whisk_7e10bfa53ebcbc38b2b47ed3ef124c5edr";
+  "/api/product-images/Whisk_7e10bfa53ebcbc38b2b47ed3ef124c5edr.jpeg";
 
 const SLIDE_PRODUCTS_BASE: Omit<SlideProduct, "image" | "bgImage">[] = [
   {
@@ -67,7 +67,7 @@ export default function Home() {
   const productSlides = getProductSlides();
 
   return (
-    <main className="min-h-screen">
+    <main className="min-h-[100dvh]">
       <Navigation />
       <Hero />
       <About />

@@ -45,7 +45,7 @@ export default function Hero() {
     <section
       id="hero"
       ref={root}
-      className="relative min-h-[100svh] w-full overflow-hidden"
+      className="relative min-h-[100dvh] w-full overflow-hidden"
     >
       <div className="absolute inset-0 z-0 overflow-hidden">
         <Image
@@ -78,7 +78,7 @@ export default function Hero() {
 
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-ink/50 via-ink/25 to-ink/65" />
 
-      <div className="relative z-[2] flex h-full min-h-[100svh] flex-col justify-end px-gutter pb-24 md:pb-32">
+      <div className="relative z-[2] flex h-full min-h-[100dvh] flex-col justify-end px-gutter pb-24 md:pb-32">
         <div className="relative z-20 -mx-4 max-w-4xl lg:-mx-8">
           <h1
             className="hero-title font-serif leading-[0.88] tracking-[-0.03em] text-white text-balance"

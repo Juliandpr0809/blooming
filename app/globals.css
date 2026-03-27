@@ -20,6 +20,18 @@ html.lenis body {
   scroll-behavior: auto !important;
 }
 
+@media (max-width: 768px) {
+  html,
+  body,
+  .lenis.lenis-smooth {
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .lenis.lenis-smooth {
+    overscroll-behavior-y: auto;
+  }
+}
+
 .lenis.lenis-smooth [data-lenis-prevent] {
   overscroll-behavior: contain;
 }

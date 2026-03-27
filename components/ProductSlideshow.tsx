@@ -43,6 +43,9 @@ export default function ProductSlideshow({ products }: Props) {
   const suppressScrollSyncRef = useRef(false);
   const [isDesktop, setIsDesktop] = useState(true);
 
+  const getViewportHeight = () =>
+    window.visualViewport?.height ?? window.innerHeight;
+
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 768px)");
     const sync = () => setIsDesktop(mq.matches);
@@ -81,7 +84,7 @@ export default function ProductSlideshow({ products }: Props) {
             const section = sectionRef.current;
             const totalScroll = Math.max(
               0,
-              section.offsetHeight - window.innerHeight
+              section.offsetHeight - getViewportHeight()
             );
             const denom = Math.max(1, n - 1);
             const targetScroll =
@@ -124,38 +127,48 @@ export default function ProductSlideshow({ products }: Props) {
 
   useGSAP(
     () => {
-      if (!isDesktop || !sectionRef.current || !stickyRef.current) return;
+      if (!sectionRef.current || !stickyRef.current) return;
 
       const section = sectionRef.current;
       const sticky = stickyRef.current;
       const n = products.length;
+      const mm = gsap.matchMedia();
 
-      const st = ScrollTrigger.create({
-        trigger: section,
-        start: "top top",
-        end: "bottom bottom",
-        pin: sticky,
-        pinSpacing: true,
-        anticipatePin: 1,
-        onUpdate: (self) => {
-          if (suppressScrollSyncRef.current) return;
-          const idx = Math.min(
-            n - 1,
-            Math.floor(self.progress * n + 0.0001)
-          );
-          if (idx !== indexRef.current) {
-            indexRef.current = idx;
-            setCurrentIndex(idx);
-            applySlideInstant(idx);
-          }
-        },
+      mm.add("(min-width: 768px)", () => {
+        const st = ScrollTrigger.create({
+          trigger: section,
+          start: "top top",
+          end: () =>
+            `+=${Math.max(1, Math.round(getViewportHeight() * Math.max(1, n - 1)))}`,
+          pin: sticky,
+          pinSpacing: true,
+          anticipatePin: 1,
+          invalidateOnRefresh: true,
+          scrub: 1,
+          onUpdate: (self) => {
+            if (suppressScrollSyncRef.current) return;
+            const idx = Math.min(
+              n - 1,
+              Math.floor(self.progress * n + 0.0001)
+            );
+            if (idx !== indexRef.current) {
+              indexRef.current = idx;
+              setCurrentIndex(idx);
+              applySlideInstant(idx);
+            }
+          },
+        });
+
+        return () => {
+          st.kill();
+        };
       });
 
       return () => {
-        st.kill();
+        mm.revert();
       };
     },
-    { scope: sectionRef, dependencies: [isDesktop, products.length, applySlideInstant] }
+    { scope: sectionRef, dependencies: [products.length, applySlideInstant] }
   );
 
   useGSAP(
@@ -221,11 +234,11 @@ export default function ProductSlideshow({ products }: Props) {
       id="catalog"
       ref={sectionRef}
       className="relative"
-      style={{ height: `${total * 100}vh` }}
+      style={{ height: `${total * 100}dvh` }}
     >
       <div
         ref={stickyRef}
-        className="sticky top-0 h-screen overflow-hidden bg-[#2C1F17]"
+        className="sticky top-0 h-[100dvh] overflow-hidden bg-[#2C1F17]"
       >
         {products.map((product, i) => (
           <div
