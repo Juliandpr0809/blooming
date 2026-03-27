@@ -2,6 +2,7 @@
 
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
+import Image from "next/image";
 import { useRef } from "react";
 
 // TODO: replace VIDEO_ID with your YouTube video ID
@@ -47,9 +48,18 @@ export default function Hero() {
       className="relative min-h-[100svh] w-full overflow-hidden"
     >
       <div className="absolute inset-0 z-0 overflow-hidden">
+        <Image
+          src={`https://img.youtube.com/vi/${VIDEO_ID}/maxresdefault.jpg`}
+          alt=""
+          fill
+          priority
+          quality={90}
+          sizes="100vw"
+          className="object-cover"
+        />
         <iframe
           title="Hero background"
-          className="pointer-events-none opacity-[0.72]"
+          className="pointer-events-none z-[1] opacity-[0.72]"
           style={{
             position: "absolute",
             top: "50%",

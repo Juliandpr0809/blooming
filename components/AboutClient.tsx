@@ -4,6 +4,7 @@ import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 
@@ -64,6 +65,30 @@ export default function AboutClient({ mainSrc, secondarySrc }: Props) {
           "+=0.2"
         );
       }
+
+      gsap.to(".about-img-main", {
+        yPercent: -10,
+        ease: "none",
+        scrollTrigger: {
+          trigger: root.current,
+          start: "top bottom",
+          end: "bottom top",
+          scrub: 1,
+        },
+      });
+
+      if (root.current?.querySelector(".about-img-secondary")) {
+        gsap.to(".about-img-secondary", {
+          yPercent: -6,
+          ease: "none",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 1.4,
+          },
+        });
+      }
     },
     { scope: root }
   );
@@ -108,13 +133,16 @@ export default function AboutClient({ mainSrc, secondarySrc }: Props) {
 
         <div className="relative lg:col-span-7 lg:col-start-7">
           <div className="relative min-h-[min(70vw,420px)] pt-12 lg:min-h-0 lg:pt-16">
-            <div className="about-img-main relative z-0 aspect-[3/4] w-[70%] overflow-hidden bg-earth-faint/40">
+            <div className="about-img-main overflow-hidden relative z-0 aspect-[3/4] w-[70%] bg-earth-faint/40">
               {mainSrc ? (
-                // eslint-disable-next-line @next/next/no-img-element
-                <img
+                <Image
                   src={mainSrc}
                   alt=""
-                  className="h-full w-full object-cover"
+                  fill
+                  loading="lazy"
+                  quality={80}
+                  sizes="(min-width: 1024px) 25vw, 50vw"
+                  className="object-cover"
                 />
               ) : (
                 <div className="flex min-h-[280px] w-full items-center justify-center bg-earth-faint/50 font-sans text-sm text-ink/40">
@@ -124,12 +152,15 @@ export default function AboutClient({ mainSrc, secondarySrc }: Props) {
             </div>
 
             {secondarySrc ? (
-              <div className="about-img-secondary absolute right-0 top-10 z-10 aspect-square w-[38%] -translate-x-10 overflow-hidden border-4 border-canvas bg-canvas shadow-[0_12px_40px_-12px_rgba(28,26,24,0.18)]">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
+              <div className="about-img-secondary overflow-hidden absolute right-0 top-10 z-10 aspect-square w-[38%] -translate-x-10 border-4 border-canvas bg-canvas shadow-[0_12px_40px_-12px_rgba(28,26,24,0.18)]">
+                <Image
                   src={secondarySrc}
                   alt=""
-                  className="h-full w-full object-cover"
+                  fill
+                  loading="lazy"
+                  quality={80}
+                  sizes="(min-width: 1024px) 20vw, 40vw"
+                  className="object-cover"
                 />
               </div>
             ) : null}

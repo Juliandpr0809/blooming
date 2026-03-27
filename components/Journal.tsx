@@ -16,21 +16,21 @@ const entries = [
     issue: "Vol. 04",
     href: "#",
     thumb:
-      "https://images.unsplash.com/photo-1605651930929-73c0ef98f4d3?q=80&w=200&auto=format&fit=crop",
+      "/api/product-images/Gemini_Generated_Image_k6yvdgk6yvdgk6yv.png",
   },
   {
     title: "Notas para luz costera",
     issue: "Vol. 03",
     href: "#",
     thumb:
-      "https://images.unsplash.com/photo-1572726410596-9b3e0d36f6e4?q=80&w=200&auto=format&fit=crop",
+      "/api/product-images/Gemini_Generated_Image_nahuk7nahuk7nahu.png",
   },
   {
     title: "Habitaciones que guardan silencio",
     issue: "Vol. 02",
     href: "#",
     thumb:
-      "https://images.unsplash.com/photo-1509343256519-d8ad63351fe1?q=80&w=200&auto=format&fit=crop",
+      "/api/product-images/Gemini_Generated_Image_u3ltjbu3ltjbu3lt.png",
   },
 ];
 
@@ -98,8 +98,10 @@ export default function Journal() {
                     src={e.thumb}
                     alt=""
                     fill
+                    loading="lazy"
+                    quality={80}
                     className="object-cover"
-                    sizes="128px"
+                    sizes="(min-width: 1024px) 20vw, 40vw"
                   />
                 </div>
                 <span className="flex-1 font-serif text-[clamp(1.15rem,2vw,1.55rem)] font-light text-ink">

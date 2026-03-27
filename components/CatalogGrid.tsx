@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import type { CSSProperties } from "react";
 
 type GridItem = {
@@ -53,11 +54,14 @@ export default function CatalogGrid({ items }: { items: GridItem[] }) {
           data-cursor-hover
         >
           <div className="group relative h-full min-h-0 w-full overflow-hidden">
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
+            <Image
               src={item.src}
               alt={item.label}
-              className="h-full w-full object-cover transition-transform duration-700 hover:scale-105"
+              fill
+              loading="lazy"
+              quality={80}
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              className="object-cover transition-transform duration-700 hover:scale-105"
             />
           </div>
         </div>

@@ -44,6 +44,7 @@ const config: Config = {
         },
         terracotta: "#C4704A",
         "rose-pale": "#D4929A",
+        "brown-deep": "#2C1F17",
         line: "rgba(28,26,24,0.12)",
       },
       fontFamily: {
