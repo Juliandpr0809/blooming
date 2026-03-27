@@ -50,7 +50,7 @@ export default function Navigation() {
           }`}
           data-cursor-hover
         >
-          Blooming
+          blooming_candle.company
         </Link>
         <ul className="hidden items-center gap-10 sm:flex">
           {links.map((l) => (

@@ -20,72 +20,85 @@ export default function AboutClient({ mainSrc, secondarySrc }: Props) {
 
   useGSAP(
     () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: root.current,
-          start: "top 75%",
-          toggleActions: "play none none reverse",
-        },
-      });
-
-      tl.fromTo(
-        ".about-copy > *",
-        { y: 40, opacity: 0 },
+      gsap.fromTo(
+        ".about-copy .mask-wrapper > *",
         {
-          y: 0,
+          y: "100%",
+          opacity: 0,
+          filter: "blur(4px)",
+        },
+        {
+          y: "0%",
           opacity: 1,
-          duration: 0.95,
-          stagger: 0.1,
-          ease: "power3.out",
+          filter: "blur(0px)",
+          duration: 0.9,
+          stagger: 0.12,
+          ease: "cubic-bezier(0.25, 1, 0.5, 1)",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top 78%",
+            toggleActions: "play none none reverse",
+          },
         }
       );
 
-      tl.fromTo(
+      gsap.fromTo(
         ".about-img-main",
-        { y: 40, opacity: 0 },
         {
-          y: 0,
-          opacity: 1,
-          duration: 0.95,
-          ease: "power3.out",
+          clipPath: "inset(0 100% 0 0)",
         },
-        "-=0.5"
+        {
+          clipPath: "inset(0 0% 0 0)",
+          duration: 1.2,
+          ease: "cubic-bezier(0.25, 1, 0.5, 1)",
+          scrollTrigger: {
+            trigger: root.current,
+            start: "top 75%",
+            toggleActions: "play none none reverse",
+          },
+        }
       );
 
       if (root.current?.querySelector(".about-img-secondary")) {
-        tl.fromTo(
+        gsap.fromTo(
           ".about-img-secondary",
-          { y: 40, opacity: 0 },
           {
-            y: 0,
-            opacity: 1,
-            duration: 0.95,
-            ease: "power3.out",
+            clipPath: "inset(100% 0 0 0)",
           },
-          "+=0.2"
+          {
+            clipPath: "inset(0% 0 0 0)",
+            duration: 1.0,
+            delay: 0.3,
+            ease: "cubic-bezier(0.25, 1, 0.5, 1)",
+            scrollTrigger: {
+              trigger: root.current,
+              start: "top 75%",
+              toggleActions: "play none none reverse",
+            },
+          }
         );
       }
 
-      gsap.to(".about-img-main", {
-        yPercent: -10,
+      gsap.to(".about-img-main img", {
+        yPercent: -12,
         ease: "none",
         scrollTrigger: {
-          trigger: root.current,
+          trigger: ".about-img-main",
           start: "top bottom",
           end: "bottom top",
-          scrub: 1,
+          scrub: 1.2,
         },
       });
 
       if (root.current?.querySelector(".about-img-secondary")) {
-        gsap.to(".about-img-secondary", {
-          yPercent: -6,
+        gsap.to(".about-img-secondary img", {
+          yPercent: -8,
           ease: "none",
           scrollTrigger: {
-            trigger: root.current,
+            trigger: ".about-img-secondary",
             start: "top bottom",
             end: "bottom top",
-            scrub: 1.4,
+            scrub: 1.5,
           },
         });
       }
@@ -101,34 +114,55 @@ export default function AboutClient({ mainSrc, secondarySrc }: Props) {
     >
       <div className="mx-auto grid max-w-[1400px] gap-14 lg:grid-cols-12 lg:gap-12">
         <div className="about-copy flex flex-col lg:col-span-5">
-          <p className="font-sans text-[11px] uppercase tracking-[0.28em] text-ink/45">
-            Nuestra esencia
-          </p>
-          <h2 className="mt-4 font-serif text-[clamp(2.8rem,5vw,4.2rem)] font-light leading-[1.12] text-ink text-balance">
-            <span className="font-normal italic">Luz</span> lenta,
-            <br />
-            fragancia medida.
-          </h2>
-          <p className="mt-8 max-w-sm font-sans text-body font-light leading-[1.8] text-ink/65">
-            Elaboramos velas en pequeños lotes con materiales nobles. La
-            fragancia se dosifica con criterio: presente, nunca invasiva.
-          </p>
-          <Link
-            href="#catalog"
-            className="group relative mt-10 inline-flex w-fit items-center gap-3 font-sans text-[11px] uppercase tracking-[0.28em] text-ink"
-            data-cursor-hover
-          >
-            <span>CONOCER MÁS</span>
-            <span aria-hidden className="text-ink/70">
-              →
-            </span>
-            <motion.span
-              className="absolute -bottom-1 left-0 h-[0.5px] w-full origin-left bg-earth-muted"
-              initial={{ scaleX: 0 }}
-              whileHover={{ scaleX: 1 }}
-              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </Link>
+          <span className="mask-wrapper">
+            <p className="font-sans text-[11px] uppercase tracking-[0.28em] text-ink/45">
+              Nuestra esencia
+            </p>
+          </span>
+          <span className="mask-wrapper">
+            <h2
+              className="mt-4 font-serif text-[clamp(2.8rem,5vw,4.2rem)] font-light leading-[1.12] tracking-[-0.02em] text-ink text-balance"
+              style={{ fontSize: "clamp(2.8rem, 6vw, 5.5rem)" }}
+            >
+              <span className="font-normal italic">Luz</span> lenta,
+              <br />
+              fragancia medida.
+            </h2>
+          </span>
+          <span className="mask-wrapper">
+            <p className="mt-8 max-w-sm font-sans text-body font-light leading-[1.8] text-ink/65">
+              Elaboramos velas en pequeños lotes con materiales nobles. La
+              fragancia se dosifica con criterio: presente, nunca invasiva.
+            </p>
+          </span>
+          <span className="mask-wrapper">
+            <Link
+              href="#catalog"
+              className="group relative mt-10 inline-flex w-fit items-center gap-3 overflow-hidden font-sans text-[11px] uppercase tracking-[0.28em] text-ink"
+              data-cursor-hover
+            >
+              <span className="relative inline-flex h-[1.2em] flex-col overflow-hidden">
+                <span className="inline-block transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:-translate-y-full">
+                  CONOCER MÁS
+                </span>
+                <span className="absolute inline-block translate-y-full transition-transform duration-500 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-y-0">
+                  CONOCER MÁS
+                </span>
+              </span>
+              <span
+                aria-hidden
+                className="inline-block text-ink/70 transition-transform duration-300 group-hover:translate-x-2"
+              >
+                →
+              </span>
+              <motion.span
+                className="absolute -bottom-1 left-0 h-[0.5px] w-full origin-left bg-earth-muted"
+                initial={{ scaleX: 0 }}
+                whileHover={{ scaleX: 1 }}
+                transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              />
+            </Link>
+          </span>
         </div>
 
         <div className="relative lg:col-span-7 lg:col-start-7">
@@ -142,7 +176,7 @@ export default function AboutClient({ mainSrc, secondarySrc }: Props) {
                   loading="lazy"
                   quality={80}
                   sizes="(min-width: 1024px) 25vw, 50vw"
-                  className="object-cover"
+                  className="h-full w-full object-cover scale-110"
                 />
               ) : (
                 <div className="flex min-h-[280px] w-full items-center justify-center bg-earth-faint/50 font-sans text-sm text-ink/40">
@@ -160,7 +194,7 @@ export default function AboutClient({ mainSrc, secondarySrc }: Props) {
                   loading="lazy"
                   quality={80}
                   sizes="(min-width: 1024px) 20vw, 40vw"
-                  className="object-cover"
+                  className="h-full w-full object-cover scale-110"
                 />
               </div>
             ) : null}

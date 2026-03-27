@@ -6,48 +6,69 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const entries = [
   {
-    title: "Lentitud y espacio doméstico",
+    title: "Luz lenta y espacio doméstico",
     issue: "Vol. 04",
     href: "#",
     thumb:
-      "/api/product-images/Gemini_Generated_Image_k6yvdgk6yvdgk6yv.png",
+      "/api/product-images/Gemini_Generated_Image_1ik7ew1ik7ew1ik7.png",
   },
   {
-    title: "Notas para luz costera",
+    title: "Notas para las soneras",
     issue: "Vol. 03",
     href: "#",
     thumb:
-      "/api/product-images/Gemini_Generated_Image_nahuk7nahuk7nahu.png",
+      "/api/product-images/Gemini_Generated_Image_1kp0y31kp0y31kp0.png",
   },
   {
     title: "Habitaciones que guardan silencio",
     issue: "Vol. 02",
     href: "#",
     thumb:
-      "/api/product-images/Gemini_Generated_Image_u3ltjbu3ltjbu3lt.png",
+      "/api/product-images/Gemini_Generated_Image_k6yvdgk6yvdgk6yv.png",
   },
 ];
 
+const rowVariants = {
+  rest: {},
+  hover: {},
+} as const;
+
+const rowBgVariants = {
+  rest: { scaleX: 0 },
+  hover: { scaleX: 1 },
+} as const;
+
 export default function Journal() {
   const root = useRef<HTMLElement>(null);
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [activeRow, setActiveRow] = useState<number | null>(null);
+
+  useEffect(() => {
+    const handleMouse = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY });
+    };
+    window.addEventListener("mousemove", handleMouse, { passive: true });
+    return () => window.removeEventListener("mousemove", handleMouse);
+  }, []);
 
   useGSAP(
     () => {
       gsap.fromTo(
         ".journal-row",
-        { y: 36, opacity: 0 },
+        { y: 24, opacity: 0, filter: "blur(3px)" },
         {
           y: 0,
           opacity: 1,
-          duration: 0.85,
-          stagger: 0.14,
-          ease: "power3.out",
+          filter: "blur(0px)",
+          duration: 0.75,
+          stagger: 0.1,
+          ease: "cubic-bezier(0.25, 1, 0.5, 1)",
           scrollTrigger: {
             trigger: root.current,
             start: "top 80%",
@@ -80,40 +101,70 @@ export default function Journal() {
           </p>
         </div>
 
-        <div className="mt-16 border-t border-[0.5px] border-line">
-          {entries.map((e) => (
+        <div className="mt-16 border-t border-[#e5e5e5]">
+          {entries.map((e, index) => (
             <motion.div
               key={e.title}
-              className="journal-row border-b border-[0.5px] border-line"
-              whileHover={{ backgroundColor: "rgba(196, 184, 165, 0.1)" }}
-              transition={{ duration: 0.5 }}
+              className="journal-row relative border-b border-[#e5e5e5]"
+              initial="rest"
+              whileHover="hover"
+              animate="rest"
+              variants={rowVariants}
+              onMouseEnter={() => setActiveRow(index)}
+              onMouseLeave={() => setActiveRow(null)}
             >
               <Link
                 href={e.href}
-                className="flex flex-col gap-5 py-10 sm:flex-row sm:items-center sm:gap-10"
+                className="group relative z-10 flex items-center justify-between gap-4 overflow-hidden py-6"
                 data-cursor-hover
               >
-                <div className="relative h-20 w-28 shrink-0 overflow-hidden bg-canvas sm:h-24 sm:w-32">
-                  <Image
-                    src={e.thumb}
-                    alt=""
-                    fill
-                    loading="lazy"
-                    quality={80}
-                    className="object-cover"
-                    sizes="(min-width: 1024px) 20vw, 40vw"
-                  />
-                </div>
-                <span className="flex-1 font-serif text-[clamp(1.15rem,2vw,1.55rem)] font-light text-ink">
-                  {e.title}
-                </span>
-                <span className="font-sans text-small uppercase tracking-[0.22em] text-ink/45">
+                <span className="w-16 shrink-0 font-sans text-[11px] uppercase tracking-[0.28em] text-ink/30">
                   {e.issue}
                 </span>
+
+                <span className="flex-1 font-serif text-[clamp(1.1rem,2vw,1.5rem)] font-light text-ink">
+                  {e.title}
+                </span>
+
+                <span
+                  className="inline-block transition-transform duration-300 ease-[cubic-bezier(0.25,1,0.5,1)] group-hover:translate-x-2 group-hover:scale-110"
+                  aria-hidden
+                >
+                  →
+                </span>
               </Link>
+
+              <motion.div
+                className="pointer-events-none absolute inset-0 -z-10 bg-earth-faint/30"
+                style={{ transformOrigin: "0% 50%" }}
+                variants={rowBgVariants}
+                transition={{ duration: 0.4, ease: [0.25, 1, 0.5, 1] }}
+              />
             </motion.div>
           ))}
         </div>
+      </div>
+
+      <div
+        className="pointer-events-none fixed z-50 overflow-hidden transition-opacity duration-300"
+        style={{
+          left: mousePos.x + 20,
+          top: mousePos.y - 60,
+          width: "140px",
+          height: "100px",
+          opacity: activeRow !== null ? 1 : 0,
+          transform: "translate(0, 0)",
+        }}
+      >
+        {activeRow !== null && (
+          <Image
+            src={entries[activeRow].thumb}
+            alt=""
+            fill
+            className="object-cover"
+            sizes="140px"
+          />
+        )}
       </div>
     </section>
   );

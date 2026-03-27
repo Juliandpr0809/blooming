@@ -54,7 +54,8 @@ export default function CustomCursor() {
       aria-hidden
       className="pointer-events-none fixed left-0 top-0 z-[100]"
       style={{ x: sx, y: sy, translateX: "-50%", translateY: "-50%" }}
-      animate={{ opacity: visible ? 1 : 0 }}
+      initial={{ opacity: 0, scale: 0 }}
+      animate={{ opacity: visible ? 1 : 0, scale: visible ? 1 : 0 }}
       transition={{ duration: 0.2 }}
     >
       <div className="flex items-center gap-3">

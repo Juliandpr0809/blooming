@@ -37,10 +37,13 @@ export default function SmoothScroll({
     <ReactLenis
       root
       options={{
-        duration: 1.15,
+        duration: 1.4,
         easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        orientation: "vertical",
         smoothWheel: true,
-        touchMultiplier: 1.65,
+        wheelMultiplier: 0.85,
+        touchMultiplier: 1.2,
+        infinite: false,
       }}
       autoRaf
     >

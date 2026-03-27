@@ -79,20 +79,23 @@ export default function Hero() {
       <div className="absolute inset-0 z-[1] bg-gradient-to-b from-ink/50 via-ink/25 to-ink/65" />
 
       <div className="relative z-[2] flex h-full min-h-[100svh] flex-col justify-end px-gutter pb-24 md:pb-32">
-        <div className="max-w-4xl">
-          <h1 className="font-serif text-display-xl font-light tracking-tight text-white text-balance">
+        <div className="relative z-20 -mx-4 max-w-4xl lg:-mx-8">
+          <h1
+            className="hero-title font-serif leading-[0.88] tracking-[-0.03em] text-white text-balance"
+            style={{ fontSize: "clamp(4.8rem, 13vw, 11rem)" }}
+          >
             <span className="hero-line block overflow-hidden py-[0.06em]">
-              <span className="hero-line-inner inline-block font-normal">
+              <span className="hero-line-inner block font-serif font-normal uppercase tracking-[-0.03em] text-white">
                 FRAGANCIA.
               </span>
             </span>
             <span className="hero-line block overflow-hidden py-[0.06em]">
-              <span className="hero-line-inner serif-italic inline-block">
+              <span className="hero-line-inner block font-serif font-light italic normal-case tracking-[-0.01em] text-white/90">
                 Intención.
               </span>
             </span>
             <span className="hero-line block overflow-hidden py-[0.06em]">
-              <span className="hero-line-inner inline-block font-normal">
+              <span className="hero-line-inner block font-serif font-normal uppercase tracking-[-0.03em] text-white">
                 CALMA.
               </span>
             </span>

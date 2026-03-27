@@ -62,8 +62,8 @@ const config: Config = {
         small: ["clamp(0.6875rem, 0.85vw, 0.8125rem)", { lineHeight: "1.5" }],
       },
       spacing: {
-        section: "clamp(4rem, 12vw, 10rem)",
-        gutter: "clamp(1.25rem, 4vw, 3.5rem)",
+        section: "clamp(80px, 12vw, 160px)",
+        gutter: "clamp(24px, 5vw, 80px)",
       },
       transitionDuration: {
         luxe: "700ms",

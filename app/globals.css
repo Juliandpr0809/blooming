@@ -36,6 +36,15 @@ body {
   @apply bg-canvas text-ink antialiased;
 }
 
+.font-serif {
+  font-feature-settings: "kern" 1, "liga" 1, "calt" 1;
+}
+
+.mask-wrapper {
+  overflow: hidden;
+  display: block;
+}
+
 html.custom-cursor,
 html.custom-cursor a,
 html.custom-cursor button,
@@ -48,6 +57,11 @@ html.custom-cursor [role="button"] {
 }
 
 @layer utilities {
+  .py-section {
+    padding-top: clamp(80px, 12vw, 160px);
+    padding-bottom: clamp(80px, 12vw, 160px);
+  }
+
   .text-balance {
     text-wrap: balance;
   }
