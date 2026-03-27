@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --cursor-size: 10px;
+  --cursor-size-hover: 40px;
+}
+
+html {
+  background-color: #f7f3ee;
+}
+
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+body {
+  @apply bg-canvas text-ink antialiased;
+}
+
+html.custom-cursor,
+html.custom-cursor a,
+html.custom-cursor button,
+html.custom-cursor [role="button"] {
+  cursor: none !important;
+}
+
+::selection {
+  @apply bg-earth-faint/60 text-ink;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .serif-italic {
+    font-style: italic;
+    font-weight: 300;
+  }
+}
